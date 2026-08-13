@@ -1,0 +1,25 @@
+name: Extract Obsidian vault
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'claude FOLDER (OBSIDIAN).zip'
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract vault and publish files
+        run: |
+          unzip -o 'claude FOLDER (OBSIDIAN).zip' -x '__MACOSX/*' '*/.DS_Store'
+          git rm --ignore-unmatch '.github/workflows/extract-obsidian.yml'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet || git commit -m 'Extract complete Obsidian vault'
+          git push
