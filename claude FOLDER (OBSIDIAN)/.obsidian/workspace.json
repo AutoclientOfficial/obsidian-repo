@@ -1,0 +1,213 @@
+{
+  "main": {
+    "id": "4cfeeae4229046b9",
+    "type": "split",
+    "children": [
+      {
+        "id": "201066318e92e3e9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cf5a381577fde41d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "The Third Jarvis/80 Projects/AutoClient MVP.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "AutoClient MVP"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b942a0752c2ec7f9",
+    "type": "split",
+    "children": [
+      {
+        "id": "f283b36c44551bb1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f084af9720b30a52",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "046b3be23125c6c9",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "34e2f8a45b57e326",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "34ca1bf05c22fd9f",
+    "type": "split",
+    "children": [
+      {
+        "id": "e7a3b68d490c8183",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9539df28d50d1036",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "708020c65dae822e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "df3992cc3de67ab8",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "d1f02e716b356622",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "cc82ebfe75815a56",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "cf5a381577fde41d",
+  "lastOpenFiles": [
+    "The Third Jarvis/50 Playbooks/How to Onboard a Client.md",
+    "The Third Jarvis/50 Playbooks/How to Create Content.md",
+    "The Third Jarvis/50 Playbooks/How to Close a Client.md",
+    "The Third Jarvis/50 Playbooks/How to Build an Offer.md",
+    "The Third Jarvis/50 Playbooks/How to Build a Funnel.md",
+    "The Third Jarvis/10 Principles/Money Principles.md",
+    "Secret Sauce/32-High Ticket Closing Script - Swipe File.md",
+    "Secret Sauce/31-The Perfect Webinar Script.md",
+    "Secret Sauce/30-Franchise VSL Swipe.md",
+    "Secret Sauce/29-Sales Video Script for Ecommerce.md",
+    "The Third Jarvis/20 Knowledge/Sales/Sales MOC.md",
+    "Secret Sauce/28-VSL Script Template.md",
+    "Secret Sauce/00 - Secret Sauce Index.md",
+    "Secret Sauce/17th - iOS14 Update Report.md",
+    "Secret Sauce/2nd - Getting Your First 3-5 Customers With Warm Outreach.md",
+    "Secret Sauce/16th - How to Fix your Ad.md",
+    "Secret Sauce/27-Headline Guides and Templates.md",
+    "Secret Sauce/15th - Account Disabled Recovery Script.md",
+    "Secret Sauce/47 - 13X ROI Campaign Blueprint.md",
+    "Secret Sauce/26-Persuasion_ 6 Powers of Influence.md",
+    "Secret Sauce/14th - Top 10 Reasons Why Your Ad Accounts Disabled.md",
+    "Secret Sauce/46 -  TESTIMONIAL SCRIPT TEMPLATE.md",
+    "Secret Sauce/13th - 13 Words To Avoid in Facebook Ads.md",
+    "Secret Sauce/45 - 30-SECOND UGC SCRIPT TEMPLATE.md",
+    "Secret Sauce/25-Sales Page Template for Events.md",
+    "Secret Sauce/11th - How to Create AI-powered Ad Scripts.md",
+    "Secret Sauce"
+  ]
+}

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FBPH Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0d10; --panel:#14161b; --panel2:#191c22; --line:#262a33;
+    --text:#e8eaee; --dim:#9aa1ad; --faint:#5c6370;
+    --accent:#e8b64c; --accent-dim:rgba(232,182,76,.14);
+    --green:#5dbb7a; --green-dim:rgba(93,187,122,.14);
+    --blue:#6aa6e8; --blue-dim:rgba(106,166,232,.14);
+    --rose:#e07a8b; --rose-dim:rgba(224,122,139,.14);
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font:15px/1.6 "Space Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .mono{font-family:"IBM Plex Mono",monospace}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px}
+
+  header{border-bottom:1px solid var(--line);background:linear-gradient(180deg,#111319,var(--bg))}
+  .head-inner{max-width:1180px;margin:0 auto;padding:34px 24px 28px;display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between}
+  .brand h1{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+  .brand h1 span{color:var(--accent)}
+  .brand p{color:var(--dim);font-size:14px;margin-top:4px}
+  .snapshot{font-size:12px;color:var(--faint);text-align:right}
+  .snapshot b{color:var(--dim);font-weight:500}
+
+  section{margin-top:44px}
+  h2{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+  .kpi .n{font-size:26px;font-weight:700;letter-spacing:-.02em}
+  .kpi .n em{font-style:normal;font-size:15px;color:var(--dim);font-weight:500}
+  .kpi .l{font-size:12.5px;color:var(--dim);margin-top:2px}
+  .kpi.hot{border-color:rgba(232,182,76,.45);background:linear-gradient(180deg,rgba(232,182,76,.08),var(--panel))}
+  .kpi.hot .n{color:var(--accent)}
+
+  .countdown{display:flex;align-items:center;gap:20px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin-top:14px}
+  .countdown .days{font-size:40px;font-weight:700;color:var(--accent);letter-spacing:-.03em;min-width:96px;text-align:center}
+  .countdown .days small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:500}
+  .countdown .info b{font-size:16px}
+  .countdown .info p{color:var(--dim);font-size:13.5px}
+
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .chip{border:1px solid var(--line);background:var(--panel);color:var(--dim);border-radius:999px;padding:5px 14px;font-size:12.5px;cursor:pointer;font-family:inherit}
+  .chip.on{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+  .chip:active{transform:scale(.97)}
+
+  .deals{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .deal{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:flex;flex-direction:column;gap:10px}
+  .deal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .deal h3{font-size:16.5px;font-weight:600;letter-spacing:-.01em}
+  .deal .sub{color:var(--faint);font-size:12.5px;margin-top:1px}
+  .badge{font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+  .b-amber{color:var(--accent);background:var(--accent-dim)}
+  .b-green{color:var(--green);background:var(--green-dim)}
+  .b-blue{color:var(--blue);background:var(--blue-dim)}
+  .b-rose{color:var(--rose);background:var(--rose-dim)}
+  .deal .value{font-size:20px;font-weight:700;letter-spacing:-.01em}
+  .deal .value small{font-size:12.5px;color:var(--faint);font-weight:400}
+  .deal .next{border-top:1px solid var(--line);padding-top:10px;font-size:13.5px;color:var(--dim)}
+  .deal .next b{color:var(--text);font-weight:500}
+  .deal .people{font-size:12px;color:var(--faint)}
+
+  .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .proj{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+  .proj h3{font-size:15.5px;font-weight:600}
+  .proj .desc{color:var(--dim);font-size:13px;margin:4px 0 12px}
+  .bar{height:6px;background:var(--panel2);border-radius:99px;overflow:hidden;margin-bottom:12px}
+  .bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+  .proj ul{list-style:none}
+  .proj li{font-size:13px;color:var(--dim);padding:3px 0;display:flex;gap:8px;align-items:baseline}
+  .proj li.done{color:var(--faint);text-decoration:line-through}
+  .proj li::before{content:"○";color:var(--faint);font-size:11px}
+  .proj li.done::before{content:"●";color:var(--green);text-decoration:none}
+
+  .know{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+  .kcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+  .krow{display:grid;grid-template-columns:110px 1fr 44px;gap:12px;align-items:center;margin:12px 0}
+  .krow .kl{font-size:13px;color:var(--dim)}
+  .krow .kn{font-size:14px;font-weight:600;text-align:right}
+  .kbar{height:8px;background:var(--panel2);border-radius:99px;overflow:hidden}
+  .kbar i{display:block;height:100%;border-radius:99px}
+  .kcard p.note{font-size:12.5px;color:var(--faint);margin-top:12px;line-height:1.55}
+  .vault-stats{display:flex;flex-direction:column;gap:0}
+  .vs{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .vs:last-child{border-bottom:0}
+  .vs span{color:var(--dim)}
+  .vs b{font-weight:600}
+
+  .actions{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:10px 22px}
+  .act{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line);cursor:pointer}
+  .act:last-child{border-bottom:0}
+  .act input{margin-top:5px;accent-color:var(--accent);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+  .act .t{font-size:14px}
+  .act .s{font-size:12px;color:var(--faint)}
+  .act.checked .t{color:var(--faint);text-decoration:line-through}
+  .act .tag{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border-radius:4px;padding:1px 7px;margin-left:8px;white-space:nowrap}
+
+  footer{margin-top:56px;border-top:1px solid var(--line);padding-top:20px;font-size:12.5px;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+  @media(max-width:860px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .deals,.projects,.know{grid-template-columns:1fr}
+    .countdown{flex-direction:row}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="brand">
+      <h1>FBPH <span>Command Center</span></h1>
+      <p>Franchise Brokerage PH — deals, projects, and knowledge system at a glance</p>
+    </div>
+    <div class="snapshot mono">
+      SNAPSHOT · <b>July 5, 2026</b><br>
+      source: The Third Jarvis vault (Obsidian)
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2>Key Numbers</h2>
+    <div class="kpis">
+      <div class="kpi hot"><div class="n">₱2.55M</div><div class="l">In negotiation — Eagles 4x4 Dasmariñas 15%</div></div>
+      <div class="kpi"><div class="n">₱60k<em>/mo</em></div><div class="l">Recurring tracked (IceXpress · Shopee · i6)</div></div>
+      <div class="kpi"><div class="n">8</div><div class="l">Deals in pipeline across 4 client notes</div></div>
+      <div class="kpi"><div class="n">4</div><div class="l">Active projects in 80 Projects</div></div>
+    </div>
+    <div class="countdown">
+      <div class="days"><span id="cd">—</span><small>days left</small></div>
+      <div class="info">
+        <b>4-Brand Launch — July 15</b>
+        <p>Supplier scheduling, scripts + storyboards for 4 brands, shoot, campaigns live. Goal: close by end of July.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Deal Pipeline</h2>
+    <div class="chips" id="chips">
+      <button class="chip on" data-f="all">All</button>
+      <button class="chip" data-f="negotiation">Negotiation</button>
+      <button class="chip" data-f="onboarding">Onboarding</button>
+      <button class="chip" data-f="launch">Launch prep</button>
+      <button class="chip" data-f="verify">Needs verification</button>
+    </div>
+    <div class="deals">
+
+      <div class="deal" data-s="negotiation">
+        <div class="deal-top">
+          <div><h3>Eagles 4x4 Offroad</h3><div class="sub">Partnership / investor-funded branches · Dasmariñas, Cavite</div></div>
+          <span class="badge b-amber">Negotiation</span>
+        </div>
+        <div class="value">₱2,550,000 <small>15% partner unit · ₱17M capitalization</small></div>
+        <div class="next"><b>Next:</b> finalize Dasmariñas 15% partner deal + full signing packet (LOI, shareholders agreement, FBPH agreement)</div>
+        <div class="people">Errol Malapit (CEO) · Marvin Obedo (Sales Dir) · Daniel Liwanag (FBPH broker)</div>
+      </div>
+
+      <div class="deal" data-s="onboarding">
+        <div class="deal-top">
+          <div><h3>IceXpress Cargo PH</h3><div class="sub">Cold-chain logistics franchise · nationwide</div></div>
+          <span class="badge b-green">Onboarding</span>
+        </div>
+        <div class="value">₱15,000<small>/mo recurring</small></div>
+        <div class="next"><b>Next:</b> collect onboarding payment · confirm recurring concession (₱30k → ₱15k) · 30-day social plan starts</div>
+        <div class="people">Adrian (CEO) · Jamie (CFO) · Martin (Marketing) · territories: ₱100k city → ₱3M region</div>
+      </div>
+
+      <div class="deal" data-s="launch">
+        <div class="deal-top">
+          <div><h3>SQOE Guitars</h3><div class="sub">Guitar store franchise · "One Partner Per City"</div></div>
+          <span class="badge b-blue">Launch prep</span>
+        </div>
+        <div class="value">₱10,000 <small>system + partnership entry</small></div>
+        <div class="next"><b>Next:</b> send welcome kit + ₱10k payment message to Sir Gem · finish 17-page Canva pitch deck (photos, prices, BPI details)</div>
+        <div class="people">Gemmo Miranda Berin (owner, Solid Chords Trading) · est. 2010</div>
+      </div>
+
+      <div class="deal" data-s="onboarding">
+        <div class="deal-top">
+          <div><h3>i6 Express</h3><div class="sub">Marketing retainer — ads, AI, system, website</div></div>
+          <span class="badge b-green">Onboarding</span>
+        </div>
+        <div class="value">₱30,000<small>/mo recurring</small></div>
+        <div class="next"><b>Next:</b> confirm scope of monthly deliverables</div>
+      </div>
+
+      <div class="deal" data-s="onboarding">
+        <div class="deal-top">
+          <div><h3>Shopee Affiliate — Ediane Grapa</h3><div class="sub">Affiliate partnership deal</div></div>
+          <span class="badge b-rose">Verify contract</span>
+        </div>
+        <div class="value">₱15,000<small>/mo · dividends every 15th &amp; 30th</small></div>
+        <div class="next"><b>Next:</b> confirm contract status before counting this revenue</div>
+      </div>
+
+      <div class="deal" data-s="launch">
+        <div class="deal-top">
+          <div><h3>Let's Glow Aesthetics</h3><div class="sub">Beauty clinic · Las Piñas · master partnership signed</div></div>
+          <span class="badge b-blue">Launch prep</span>
+        </div>
+        <div class="value">Brokerage <small>lead capture, CRM, bookings, support</small></div>
+        <div class="next"><b>Next:</b> landing page live (Book Now CTA) · help source doctor · product knowledge training</div>
+        <div class="people">Rizza Lana Sebastian (founder) · FBPH is not clinic/operator/medical provider</div>
+      </div>
+
+      <div class="deal" data-s="verify">
+        <div class="deal-top">
+          <div><h3>ITSLOGIC Freight Inc.</h3><div class="sub">Logistics, freight forwarding, import/export</div></div>
+          <span class="badge b-rose">Verify</span>
+        </div>
+        <div class="value">TBD</div>
+        <div class="next"><b>Next:</b> check overlap with IceXpress context before using any details · Adrian Santiago Bruno (CEO)</div>
+      </div>
+
+      <div class="deal" data-s="verify">
+        <div class="deal-top">
+          <div><h3>Lando's Bar</h3><div class="sub">Partnership system — early discussions</div></div>
+          <span class="badge b-rose">Incomplete</span>
+        </div>
+        <div class="value">TBD</div>
+        <div class="next"><b>Next:</b> logo delivered · pain points documented · needs scoping call to define the deal</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Active Projects</h2>
+    <div class="projects">
+
+      <div class="proj">
+        <h3>FBPH 4-Brand Launch</h3>
+        <p class="desc">Target July 15 · close by end of month</p>
+        <div class="bar"><i style="width:0%"></i></div>
+        <ul>
+          <li>Schedule supplier</li>
+          <li>Scripts + storyboards for 4 brands (~2 days)</li>
+          <li>Shoot / media day</li>
+          <li>Campaigns live</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <h3>Knowledge Base Build</h3>
+        <p class="desc">Complete Business OS vault — 3 of 8 done</p>
+        <div class="bar"><i style="width:38%"></i></div>
+        <ul>
+          <li class="done">Vault restructured to 00–90 Business OS</li>
+          <li class="done">14 Claude Cowork sessions distilled</li>
+          <li class="done">ChatGPT parts 1–2 filed (24 notes)</li>
+          <li>Paste remaining ChatGPT "CONTINUED" parts</li>
+          <li>Run converter on ChatGPT + claude.ai zip exports</li>
+          <li>Install Copilot + Smart Connections in Obsidian</li>
+          <li>First weekly review of the vault</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <h3>Jarvis AI</h3>
+        <p class="desc">Personal + business AI operator — vault as memory, MCP as hands</p>
+        <div class="bar"><i style="width:20%"></i></div>
+        <ul>
+          <li class="done">Vault connected to Claude (Cowork) · import pipeline live</li>
+          <li>Migrate Jarvis/Hermes planning from remaining ChatGPT parts</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <h3>AutoClient MVP</h3>
+        <p class="desc">Productized lead-gen (funnel + CRM + AI follow-up) — FBPH entry-tier offer</p>
+        <div class="bar"><i style="width:10%"></i></div>
+        <ul>
+          <li>Migrate scope from remaining ChatGPT parts</li>
+          <li>Define offer, pricing, positioning</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Knowledge System</h2>
+    <div class="know">
+      <div class="kcard">
+        <b style="font-size:15px">Epistemic status — what's proven vs. believed</b>
+        <div class="krow"><span class="kl">Theory</span><div class="kbar"><i style="width:100%;background:var(--blue)"></i></div><span class="kn">40</span></div>
+        <div class="krow"><span class="kl">Hypothesis</span><div class="kbar"><i style="width:95%;background:var(--accent)"></i></div><span class="kn">38</span></div>
+        <div class="krow"><span class="kl">Validated</span><div class="kbar"><i style="width:10%;background:var(--green)"></i></div><span class="kn">4</span></div>
+        <p class="note">Theory = imported, untested. Hypothesis = running now in real campaigns/deals — review monthly. Validated = proven by our own results. The goal is moving notes rightward: every closed deal or measured campaign should upgrade at least one hypothesis.</p>
+      </div>
+      <div class="kcard">
+        <b style="font-size:15px">Vault health</b>
+        <div class="vault-stats" style="margin-top:8px">
+          <div class="vs"><span>Notes</span><b>111</b></div>
+          <div class="vs"><span>Internal links</span><b>409</b></div>
+          <div class="vs"><span>Orphan notes</span><b>0</b></div>
+          <div class="vs"><span>Broken links</span><b>0</b></div>
+          <div class="vs"><span>Knowledge areas</span><b>6 MOCs</b></div>
+          <div class="vs"><span>Businesses tracked</span><b>3</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Next Actions <span style="text-transform:none;letter-spacing:0;font-weight:400">— checkboxes save in this browser</span></h2>
+    <div class="actions" id="actions">
+      <label class="act"><input type="checkbox" data-k="a1"><div><div class="t">Finalize Eagles 4x4 Dasmariñas 15% deal + signing packet<span class="tag">₱2.55M</span></div><div class="s">Eagles 4x4 · negotiation</div></div></label>
+      <label class="act"><input type="checkbox" data-k="a2"><div><div class="t">Schedule supplier + lock scripts/storyboards for 4 brands<span class="tag">Jul 15</span></div><div class="s">4-Brand Launch · 2 days production planning needed</div></div></label>
+      <label class="act"><input type="checkbox" data-k="a3"><div><div class="t">Collect IceXpress onboarding payment, confirm ₱15k/mo recurring</div><div class="s">IceXpress · onboarding</div></div></label>
+      <label class="act"><input type="checkbox" data-k="a4"><div><div class="t">Send SQOE welcome kit + ₱10k payment message to Sir Gem</div><div class="s">SQOE · launch prep</div></div></label>
+      <label class="act"><input type="checkbox" data-k="a5"><div><div class="t">Finish SQOE Canva pitch deck — photos, package price, BPI details</div><div class="s">SQOE · 17-page deck is drafted, placeholders remain</div></div></label>
+      <label class="act"><input type="checkbox" data-k="a6"><div><div class="t">Confirm Shopee Affiliate (Ediane Grapa) contract status</div><div class="s">Compliance — don't count the ₱15k/mo until confirmed</div></div></label>
+      <label class="act"><input type="checkbox" data-k="a7"><div><div class="t">Verify ITSLOGIC vs IceXpress context overlap</div><div class="s">Data hygiene before any client-facing use</div></div></label>
+      <label class="act"><input type="checkbox" data-k="a8"><div><div class="t">Import remaining ChatGPT "CONTINUED" parts into the vault</div><div class="s">Knowledge Base Build · unblocks Jarvis AI + AutoClient scoping</div></div></label>
+      <label class="act"><input type="checkbox" data-k="a9"><div><div class="t">Run first Weekly Review — file inbox, review hypothesis notes</div><div class="s">Weekly Review SOP · keeps this dashboard honest</div></div></label>
+    </div>
+  </section>
+
+  <footer>
+    <span>Generated from the Obsidian vault "The Third Jarvis" · static snapshot — ask Claude to regenerate after vault changes</span>
+    <span class="mono">FBPH · franchisebrokerageph@gmail.com</span>
+  </footer>
+
+</div>
+
+<script>
+  // Launch countdown (live)
+  (function(){
+    var launch = new Date("2026-07-15T00:00:00+08:00");
+    var d = Math.ceil((launch - new Date()) / 86400000);
+    var el = document.getElementById("cd");
+    el.textContent = d > 0 ? d : (d === 0 ? "0" : "✓");
+    if (d < 0) el.nextElementSibling.textContent = "launched";
+  })();
+
+  // Pipeline filter
+  document.getElementById("chips").addEventListener("click", function(e){
+    var btn = e.target.closest(".chip"); if(!btn) return;
+    document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));
+    btn.classList.add("on");
+    var f = btn.dataset.f;
+    document.querySelectorAll(".deal").forEach(function(d){
+      d.style.display = (f==="all" || d.dataset.s===f) ? "" : "none";
+    });
+  });
+
+  // Next-action checkboxes persist in localStorage
+  (function(){
+    var boxes = document.querySelectorAll("#actions input[type=checkbox]");
+    boxes.forEach(function(b){
+      var k = "fbph_" + b.dataset.k;
+      try { if (localStorage.getItem(k)==="1"){ b.checked = true; b.closest(".act").classList.add("checked"); } } catch(e){}
+      b.addEventListener("change", function(){
+        b.closest(".act").classList.toggle("checked", b.checked);
+        try { localStorage.setItem(k, b.checked ? "1" : "0"); } catch(e){}
+      });
+    });
+  })();
+</script>
+</body>
+</html>
